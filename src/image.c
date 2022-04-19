@@ -819,12 +819,11 @@ image letterbox_image(image im, int w, int h)
     } else {
         new_h = h;
         new_w = (im.w * h)/im.h;
+        fprintf(stderr, "\n new_w %d, new_h %d\n", new_w, new_h);
     }
     image resized = resize_image(im, new_w, new_h);
     image boxed = make_image(w, h, im.c);
     fill_image(boxed, .5);
-    //int i;
-    //for(i = 0; i < boxed.w*boxed.h*boxed.c; ++i) boxed.data[i] = 0;
     embed_image(resized, boxed, (w-new_w)/2, (h-new_h)/2); 
     free_image(resized);
     return boxed;
@@ -1301,8 +1300,8 @@ image load_image_stb(char *filename, int channels)
     if(channels) c = channels;
     int i,j,k;
     image im = make_image(w, h, c);
-    for(k = 0; k < c; ++k){
-        for(j = 0; j < h; ++j){
+    for(k = 0; k < c; ++k){ 
+        for(j = 0; j < h; ++j){ 
             for(i = 0; i < w; ++i){
                 int dst_index = i + w*j + w*h*k;
                 int src_index = k + c*i + c*w*j;

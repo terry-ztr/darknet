@@ -583,8 +583,13 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
             if(!input) return;
             strtok(input, "\n");
         }
+
         image im = load_image_color(input,0,0);
+        fprintf(stderr, "im->w %d, im->h %d\n", im.w, im.h);
+       
         image sized = letterbox_image(im, net->w, net->h);
+        fprintf(stderr, "net->w %d, net->h %d\n", net->w, net->h);
+
         //image sized = resize_image(im, net->w, net->h);
         //image sized2 = resize_max(im, net->w);
         //image sized = crop_image(sized2, -((net->w - sized2.w)/2), -((net->h - sized2.h)/2), net->w, net->h);
@@ -593,6 +598,8 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
 
 
         float *X = sized.data;
+        //float *X = im.data;
+
         time=what_time_is_it_now();
         network_predict(net, X);
         printf("%s: Predicted in %f seconds.\n", input, what_time_is_it_now()-time);
